@@ -8,6 +8,7 @@ body,html{
     justify-content: center;
     align-items: center;
     background-color: whitesmoke;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .calc-container {
     display: flex;
@@ -46,6 +47,7 @@ body,html{
     display: flex;
     justify-content: flex-end;
     padding: 5%;
+    font-size: large;
 }
 
 .first-row,
@@ -68,7 +70,23 @@ body,html{
     height: 50px;
     border: 1px #333 solid;
     background-color: #f0f0f0;
+    font-size: large;
 }
+
+.clear-delete-btn:hover,
+.buttons:hover
+{
+    background: lightgray;
+}
+
+.clear-delete-btn:active,
+.buttons:active
+{
+    background-color: #f0f0f0;
+    box-shadow: 0 4px #666;
+    transform: translateY(1px);
+}
+
 #clear{
     background-color: #faa;
 }
