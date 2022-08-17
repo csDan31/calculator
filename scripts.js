@@ -14,8 +14,9 @@ const operate = function(operator,num1,num2){
 
 let displayVar = 0;
 let firstNumber;
+let nextNumber;
 
-let displayHistory;
+let displayHistory = "";
 
 // button event handler //
 
@@ -24,41 +25,46 @@ let displayHistory;
 let clearBtn = document.getElementById('clear');
 clearBtn.addEventListener('click', ()=> {
     displayVar = 0;
+    displayHistory = "";
     currentDisplay.textContent = displayVar;
+    prevDisplay.textContent = displayHistory;
 })
 
 let deleteBtn = document.getElementById('delete');
 
 // number buttons //
 
-let numberBtns = document.getElementById('btns');
-numberBtns.addEventListener('click', (event) => {
-    // const isButton = event.target.nodeName === 'BUTTON';
+let containerBtns = document.getElementById('btns');
+containerBtns.addEventListener('click', (event) => {
     const isButton = event.target.id === 'number';
     const isOperator = event.target.id === 'operator';
+    const isOperate = event.target.id === 'operate';
 
-    // if(!isButton) {
-    //     return;
-    // }
     if(isButton){
-    console.log(event.target.textContent);
-
-    displayVar += event.target.textContent;
-    currentDisplay.textContent = Number(displayVar);
-    firstNumber = Number(displayVar);
+        if(displayHistory === ""){
+            console.log(event.target.textContent);
+            displayVar += event.target.textContent;
+            currentDisplay.textContent = Number(displayVar);
+            firstNumber = Number(displayVar);
+        }
+        if(displayHistory !== ""){
+            console.log(event.target.textContent);
+            displayVar += event.target.textContent;
+            currentDisplay.textContent = Number(displayVar);
+            nextNumber = Number(displayVar);
+        }
 }
     if(isOperator){
+        let chosenOperator = "";
         console.log(event.target.textContent);
-        prevDisplay.textContent = firstNumber;
+        prevDisplay.textContent = firstNumber + " " + event.target.textContent;
+        chosenOperator = String(`${event.target.textContent}`);
+    }
+
+    if(isOperate){
+        console.log(event.target.textContent);
     }
 })
-
-// operator buttons //
-// let operatorBtn = document.getElementById('operator');
-// operatorBtn.addEventListener('click', (event) => {
-//     console.log(event.target.textContent);
-//     displayHistory = firstNumber;
-// })
 
 // display handler //
 let currentDisplay = document.querySelector('.display-current');
