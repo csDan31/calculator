@@ -13,9 +13,9 @@ const operate = function(operator,num1,num2){
 }
 
 let displayVar = 0;
-let firstNumber;
-let nextNumber;
-
+let firstNumber = 0;
+let nextNumber = 0;
+let chosenOperator = "";
 let displayHistory = "";
 
 // button event handler //
@@ -32,7 +32,7 @@ clearBtn.addEventListener('click', ()=> {
 
 let deleteBtn = document.getElementById('delete');
 
-// number buttons //
+// button events //
 
 let containerBtns = document.getElementById('btns');
 containerBtns.addEventListener('click', (event) => {
@@ -42,29 +42,36 @@ containerBtns.addEventListener('click', (event) => {
 
     if(isButton){
         if(displayHistory === ""){
-            console.log(event.target.textContent);
             displayVar += event.target.textContent;
             currentDisplay.textContent = Number(displayVar);
             firstNumber = Number(displayVar);
+            console.log(firstNumber);
         }
         if(displayHistory !== ""){
-            console.log(event.target.textContent);
             displayVar += event.target.textContent;
             currentDisplay.textContent = Number(displayVar);
             nextNumber = Number(displayVar);
+            console.log(nextNumber);
         }
-}
+    }
     if(isOperator){
-        let chosenOperator = "";
-        console.log(event.target.textContent);
-        prevDisplay.textContent = firstNumber + " " + event.target.textContent;
-        chosenOperator = String(`${event.target.textContent}`);
-    }
-
+            prevDisplay.textContent = firstNumber + " " + event.target.textContent;
+            displayHistory = firstNumber + " " + event.target.textContent;
+            chosenOperator = `${event.target.textContent}`;
+            console.log(chosenOperator);
+            displayVar = 0;
+        }
+    
     if(isOperate){
-        console.log(event.target.textContent);
-    }
-})
+            console.log(event.target.textContent);
+            displayVar = 0;
+            prevDisplay.textContent = firstNumber +" "+ chosenOperator +" "+ nextNumber +" "+ event.target.textContent
+            currentDisplay.textContent = operate(chosenOperator,firstNumber,nextNumber);
+        }
+    })
+
+
+
 
 // display handler //
 let currentDisplay = document.querySelector('.display-current');
