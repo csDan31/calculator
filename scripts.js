@@ -25,6 +25,8 @@ let displayHistory = "";
 let clearBtn = document.getElementById('clear');
 clearBtn.addEventListener('click', ()=> {
     displayVar = 0;
+    firstNumber = 0;
+    nextNumber = 0;
     displayHistory = "";
     currentDisplay.textContent = displayVar;
     prevDisplay.textContent = displayHistory;
@@ -59,14 +61,25 @@ containerBtns.addEventListener('click', (event) => {
             displayHistory = firstNumber + " " + event.target.textContent;
             chosenOperator = `${event.target.textContent}`;
             console.log(chosenOperator);
-            displayVar = 0;
+            displayVar = "";
+
+            if(currentDisplay !== "" && displayHistory !== "") {
+                firstNumber = operate(chosenOperator,firstNumber,nextNumber);
+                prevDisplay.textContent = firstNumber + " " + event.target.textContent;
+                currentDisplay.textContent = firstNumber;
+                 
+            }
         }
     
     if(isOperate){
-            console.log(event.target.textContent);
-            displayVar = 0;
-            prevDisplay.textContent = firstNumber +" "+ chosenOperator +" "+ nextNumber +" "+ event.target.textContent
-            currentDisplay.textContent = operate(chosenOperator,firstNumber,nextNumber);
+            if (prevDisplay.textContent.slice(-1) === '=') {
+                return;
+            } else {
+                console.log(event.target.textContent);
+                prevDisplay.textContent = firstNumber +" "+ chosenOperator +" "+ nextNumber +" "+ event.target.textContent
+                firstNumber = operate(chosenOperator,firstNumber,nextNumber);
+                currentDisplay.textContent = firstNumber;
+            }
         }
     })
 
