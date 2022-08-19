@@ -14,7 +14,7 @@ const operate = function(operator,num1,num2){
 
 let displayVar = 0;
 let firstNumber = 0;
-let nextNumber = 0;
+let nextNumber;
 let chosenOperator = "";
 let displayHistory = "";
 
@@ -26,7 +26,7 @@ let clearBtn = document.getElementById('clear');
 clearBtn.addEventListener('click', ()=> {
     displayVar = 0;
     firstNumber = 0;
-    nextNumber = 0;
+    nextNumber;
     displayHistory = "";
     currentDisplay.textContent = displayVar;
     prevDisplay.textContent = displayHistory;
@@ -55,24 +55,35 @@ containerBtns.addEventListener('click', (event) => {
             nextNumber = Number(displayVar);
             console.log(nextNumber);
         }
+        if(prevDisplay.textContent.slice(-1) === '='){
+            displayVar = 0;
+            firstNumber = 0;
+            nextNumber = 0;
+            displayHistory = "";
+            prevDisplay.textContent = displayHistory;
+            displayVar += event.target.textContent;
+            currentDisplay.textContent = Number(displayVar);
+            firstNumber = Number(displayVar);
+        }
     }
     if(isOperator){
-            prevDisplay.textContent = firstNumber + " " + event.target.textContent;
-            displayHistory = firstNumber + " " + event.target.textContent;
-            chosenOperator = `${event.target.textContent}`;
-            console.log(chosenOperator);
-            displayVar = "";
-
-            if(currentDisplay !== "" && displayHistory !== "") {
+            if(prevDisplay.textContent.slice(-1) in operatorObj) {
                 firstNumber = operate(chosenOperator,firstNumber,nextNumber);
-                prevDisplay.textContent = firstNumber + " " + event.target.textContent;
+                chosenOperator = `${event.target.textContent}`;
+                prevDisplay.textContent = firstNumber + " "+ chosenOperator;
                 currentDisplay.textContent = firstNumber;
-                 
+                displayVar = "";
+            } else {
+                prevDisplay.textContent = firstNumber + " " + event.target.textContent;
+                displayHistory = firstNumber + " " + event.target.textContent;
+                chosenOperator = `${event.target.textContent}`;
+                console.log(chosenOperator);
+                displayVar = "";
             }
         }
     
     if(isOperate){
-            if (prevDisplay.textContent.slice(-1) === '=') {
+            if (prevDisplay.textContent.slice(-1) === '=' || nextNumber === undefined) {
                 return;
             } else {
                 console.log(event.target.textContent);
@@ -82,9 +93,6 @@ containerBtns.addEventListener('click', (event) => {
             }
         }
     })
-
-
-
 
 // display handler //
 let currentDisplay = document.querySelector('.display-current');
