@@ -21,7 +21,7 @@ let displayHistory = "";
 // button event handler //
 
 
-// clear and delete buttons //
+// clear button //
 let clearBtn = document.getElementById('clear');
 clearBtn.addEventListener('click', ()=> {
     displayVar = 0;
@@ -32,7 +32,26 @@ clearBtn.addEventListener('click', ()=> {
     prevDisplay.textContent = displayHistory;
 })
 
+// delete button //
 let deleteBtn = document.getElementById('delete');
+deleteBtn.addEventListener('click', () => {
+    if(displayVar === 0 || currentDisplay.textContent.length === 1) {
+        displayVar = "";
+        currentDisplay.textContent = Number(displayVar);
+    }
+    if (prevDisplay.textContent.slice(-1) === '=' || nextNumber === undefined || displayVar === "") {
+        return;
+    }
+    if(prevDisplay.textContent.slice(-1) in operatorObj && currentDisplay.textContent.length > 1) {
+        displayVar = (displayVar - (displayVar % 10))/10;
+        currentDisplay.textContent = displayVar;
+        nextNumber = Number(displayVar);
+    } else {
+        displayVar = (displayVar - (displayVar % 10))/10;
+        currentDisplay.textContent = displayVar;
+        firstNumber = Number(displayVar);
+    }
+})
 
 // button events //
 
@@ -67,19 +86,22 @@ containerBtns.addEventListener('click', (event) => {
         }
     }
     if(isOperator){
-            if(prevDisplay.textContent.slice(-1) in operatorObj) {
+        if(displayVar === ""){
+            return;
+        }
+        if(prevDisplay.textContent.slice(-1) in operatorObj) {
                 firstNumber = operate(chosenOperator,firstNumber,nextNumber);
                 chosenOperator = `${event.target.textContent}`;
                 prevDisplay.textContent = firstNumber + " "+ chosenOperator;
                 currentDisplay.textContent = firstNumber;
                 displayVar = "";
-            } else {
+        } else {
                 prevDisplay.textContent = firstNumber + " " + event.target.textContent;
                 displayHistory = firstNumber + " " + event.target.textContent;
                 chosenOperator = `${event.target.textContent}`;
                 console.log(chosenOperator);
                 displayVar = "";
-            }
+        }
         }
     
     if(isOperate){
