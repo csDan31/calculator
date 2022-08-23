@@ -35,20 +35,21 @@ clearBtn.addEventListener('click', ()=> {
 // delete button //
 let deleteBtn = document.getElementById('delete');
 deleteBtn.addEventListener('click', () => {
-    if(displayVar === 0 || currentDisplay.textContent.length === 1) {
-        displayVar = "";
+    if(currentDisplay.textContent.length === 1) {
+        displayVar = 0;
+        currentDisplay.textContent = displayVar;
         currentDisplay.textContent = Number(displayVar);
     }
-    if (prevDisplay.textContent.slice(-1) === '=' || nextNumber === undefined || displayVar === "") {
+    if (prevDisplay.textContent.slice(-1) === '=' || displayVar === "" || displayVar === 0) {
         return;
     }
     if(prevDisplay.textContent.slice(-1) in operatorObj && currentDisplay.textContent.length > 1) {
-        displayVar = (displayVar - (displayVar % 10))/10;
-        currentDisplay.textContent = displayVar;
+        displayVar = displayVar.slice(0,-1);
+        currentDisplay.textContent = Number(displayVar);
         nextNumber = Number(displayVar);
     } else {
-        displayVar = (displayVar - (displayVar % 10))/10;
-        currentDisplay.textContent = displayVar;
+        displayVar = displayVar.slice(0,-1);
+        currentDisplay.textContent = Number(displayVar);
         firstNumber = Number(displayVar);
     }
 })
@@ -63,16 +64,24 @@ containerBtns.addEventListener('click', (event) => {
 
     if(isButton){
         if(displayHistory === ""){
+            if(displayVar === 0 && event.target.textContent === '0'){
+                return;
+            } else {
             displayVar += event.target.textContent;
             currentDisplay.textContent = Number(displayVar);
             firstNumber = Number(displayVar);
             console.log(firstNumber);
+            }
         }
         if(displayHistory !== ""){
+            if(displayVar === 0 && event.target.textContent === '0'){
+                return;
+            } else {
             displayVar += event.target.textContent;
             currentDisplay.textContent = Number(displayVar);
             nextNumber = Number(displayVar);
             console.log(nextNumber);
+            }
         }
         if(prevDisplay.textContent.slice(-1) === '='){
             displayVar = 0;
@@ -109,13 +118,34 @@ containerBtns.addEventListener('click', (event) => {
                 return;
             } else {
                 console.log(event.target.textContent);
-                prevDisplay.textContent = firstNumber +" "+ chosenOperator +" "+ nextNumber +" "+ event.target.textContent
+                prevDisplay.textContent = firstNumber +" "+ chosenOperator +" "+ nextNumber +" "+ event.target.textContent;
                 firstNumber = operate(chosenOperator,firstNumber,nextNumber);
+                if(firstNumber % 1 === 0) {
                 currentDisplay.textContent = firstNumber;
+                } else {
+                    currentDisplay.textContent = firstNumber.toFixed(2);
+                }
             }
         }
     })
 
+    // decimal button //
+    let decimalBtn = document.getElementById('decimal-btn')
+    decimalBtn.addEventListener('click', () => {
+    if(displayVar === 0 || displayVar === ""){
+        displayVar = 0;
+        displayVar += ".";
+        currentDisplay.textContent = displayVar;
+    }
+    if(displayVar.includes('.')) {
+        return;
+    }
+    if(displayVar.charAt(0) === '0'){
+        displayVar = displayVar.slice(1);
+        displayVar += ".";
+        currentDisplay.textContent = displayVar;
+    }
+    })
 // display handler //
 let currentDisplay = document.querySelector('.display-current');
 currentDisplay.textContent = displayVar;
