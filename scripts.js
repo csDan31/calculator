@@ -45,11 +45,11 @@ deleteBtn.addEventListener('click', () => {
     }
     if(prevDisplay.textContent.slice(-1) in operatorObj && currentDisplay.textContent.length > 1) {
         displayVar = displayVar.slice(0,-1);
-        currentDisplay.textContent = displayVar;
+        currentDisplay.textContent = Number(displayVar);
         nextNumber = Number(displayVar);
     } else {
         displayVar = displayVar.slice(0,-1);
-        currentDisplay.textContent = displayVar;
+        currentDisplay.textContent = Number(displayVar);
         firstNumber = Number(displayVar);
     }
 })
