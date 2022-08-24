@@ -45,11 +45,11 @@ deleteBtn.addEventListener('click', () => {
     }
     if(prevDisplay.textContent.slice(-1) in operatorObj && currentDisplay.textContent.length > 1) {
         displayVar = displayVar.slice(0,-1);
-        currentDisplay.textContent = Number(displayVar);
+        currentDisplay.textContent = displayVar;
         nextNumber = Number(displayVar);
     } else {
         displayVar = displayVar.slice(0,-1);
-        currentDisplay.textContent = Number(displayVar);
+        currentDisplay.textContent = displayVar;
         firstNumber = Number(displayVar);
     }
 })
@@ -66,21 +66,31 @@ containerBtns.addEventListener('click', (event) => {
         if(displayHistory === ""){
             if(displayVar === 0 && event.target.textContent === '0'){
                 return;
+            } else if (currentDisplay.textContent.includes('.') && event.target.textContent === '0'){
+                displayVar += event.target.textContent;
+                currentDisplay.textContent = displayVar;
+                firstNumber = Number(displayVar);
+                console.log(firstNumber);
             } else {
-            displayVar += event.target.textContent;
-            currentDisplay.textContent = Number(displayVar);
-            firstNumber = Number(displayVar);
-            console.log(firstNumber);
+                displayVar += event.target.textContent;
+                currentDisplay.textContent = Number(displayVar);
+                firstNumber = Number(displayVar);
+                console.log(firstNumber);
             }
         }
         if(displayHistory !== ""){
             if(displayVar === 0 && event.target.textContent === '0'){
                 return;
+            } else if (currentDisplay.textContent.includes('.') && event.target.textContent === '0'){
+                displayVar += event.target.textContent;
+                currentDisplay.textContent = displayVar;
+                nextNumber = Number(displayVar);
+                console.log(nextNumber);
             } else {
-            displayVar += event.target.textContent;
-            currentDisplay.textContent = Number(displayVar);
-            nextNumber = Number(displayVar);
-            console.log(nextNumber);
+                displayVar += event.target.textContent;
+                currentDisplay.textContent = Number(displayVar);
+                nextNumber = Number(displayVar);
+                console.log(nextNumber);
             }
         }
         if(prevDisplay.textContent.slice(-1) === '='){
@@ -96,6 +106,10 @@ containerBtns.addEventListener('click', (event) => {
     }
     if(isOperator){
         if(displayVar === ""){
+            return;
+        }
+        if(nextNumber === 0 && chosenOperator === '/'){
+            currentDisplay.textContent = "Cannot divide by zero";
             return;
         }
         if(prevDisplay.textContent.slice(-1) in operatorObj) {
@@ -114,6 +128,14 @@ containerBtns.addEventListener('click', (event) => {
         }
     
     if(isOperate){
+        if(firstNumber === 0 && nextNumber === 0 && chosenOperator === '/'){
+            currentDisplay.textContent = "Result is undefined";
+            return;
+        }
+        if(nextNumber === 0 && chosenOperator === '/'){
+            currentDisplay.textContent = "Cannot divide by zero";
+            return;
+        }
             if (prevDisplay.textContent.slice(-1) === '=' || nextNumber === undefined) {
                 return;
             } else {
@@ -123,7 +145,7 @@ containerBtns.addEventListener('click', (event) => {
                 if(firstNumber % 1 === 0) {
                 currentDisplay.textContent = firstNumber;
                 } else {
-                    currentDisplay.textContent = firstNumber.toFixed(2);
+                    currentDisplay.textContent = firstNumber.toFixed(6);
                 }
             }
         }
@@ -136,14 +158,18 @@ containerBtns.addEventListener('click', (event) => {
         displayVar = 0;
         displayVar += ".";
         currentDisplay.textContent = displayVar;
-    }
-    if(displayVar.includes('.')) {
-        return;
-    }
-    if(displayVar.charAt(0) === '0'){
+    } else if (displayVar.charAt(0) === '0' && displayVar !== ""){
         displayVar = displayVar.slice(1);
         displayVar += ".";
         currentDisplay.textContent = displayVar;
+        console.log("this is firing off")
+    }
+    if(displayHistory !== ""){
+        displayVar += ".";
+        currentDisplay.textContent = displayVar;
+    }
+    if(displayVar.includes('.')) {
+        return;
     }
     })
 // display handler //
