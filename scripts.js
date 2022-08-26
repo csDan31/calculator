@@ -145,7 +145,7 @@ containerBtns.addEventListener('click', (event) => {
                 if(firstNumber % 1 === 0) {
                 currentDisplay.textContent = firstNumber;
                 } else {
-                    currentDisplay.textContent = firstNumber.toFixed(6);
+                    currentDisplay.textContent = firstNumber.toFixed(2);
                 }
             }
         }
@@ -154,19 +154,15 @@ containerBtns.addEventListener('click', (event) => {
     // decimal button //
     let decimalBtn = document.getElementById('decimal-btn')
     decimalBtn.addEventListener('click', () => {
-    if(displayVar === 0 || displayVar === ""){
+    if(displayVar === 0 || displayVar === "" || displayHistory !== ""){
         displayVar = 0;
         displayVar += ".";
         currentDisplay.textContent = displayVar;
-    } else if (displayVar.charAt(0) === '0' && displayVar !== ""){
+    } else if (displayVar.charAt(0) === '0' && displayVar !== "" || displayHistory !== ""){
         displayVar = displayVar.slice(1);
         displayVar += ".";
         currentDisplay.textContent = displayVar;
         console.log("this is firing off")
-    }
-    if(displayHistory !== ""){
-        displayVar += ".";
-        currentDisplay.textContent = displayVar;
     }
     if(displayVar.includes('.')) {
         return;
