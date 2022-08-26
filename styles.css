@@ -16,7 +16,7 @@ body,html{
     justify-content: space-around;
     height: 500px;
     width: 350px;
-    background-color: #aaa;
+    background-color: #353935;
     border: 2px #333 solid;
     padding: 20px;
     border-radius: 10px;
@@ -52,7 +52,7 @@ body,html{
     display: flex;
     justify-content: flex-end;
     padding: 5%;
-    font-size: xx-large;
+    font-size: x-large;
 }
 
 .first-row,
@@ -76,6 +76,14 @@ body,html{
     border: 1px #333 solid;
     background-color: #f0f0f0;
     font-size: large;
+}
+
+#operator{
+    background-color: #ffc300;
+}
+
+#operate{
+    background-color: #32cd32;
 }
 
 .clear-delete-btn:hover,
